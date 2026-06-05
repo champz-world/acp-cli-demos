@@ -1,21 +1,52 @@
 # ACP CLI Demos
 
-This repo collects demos and reusable agent skills that show how agents can use [`acp-cli`](https://github.com/Virtual-Protocol/acp-cli) for real-world commerce workflows.
+This repo collects reusable agent skills and utilities that show how agents can use [`acp-cli`](https://github.com/Virtual-Protocol/acp-cli) for real-world commerce workflows.
 
-The first demo shows an ACP agent subscribing to a paid Substack using:
+The repo is organized around self-contained skill folders. Each contributed skill should live under `skills/<skill-name>/` with its own `SKILL.md`, references, examples, and any metadata needed by agent runtimes.
+
+The first skill demonstrates an ACP agent subscribing to a paid Substack using:
 
 - ACP Agent Email for signup, receipts, OTPs, and account verification
 - ACP Agent Card for bounded, single-use checkout payments
 - `acp-cli` for identity, email, card issuance, payment status, 3DS, and receipt checks
 - Browser automation for the merchant checkout page
 
-## Demos
+## Skills
 
-### Paid Substack Subscription
+Shared skill sources:
 
-Path: [`demos/paid-substack-subscription`](demos/paid-substack-subscription)
+- [`skills/acp-builder-setup`](skills/acp-builder-setup) - setup and model-routing guidance for Codex, Claude Code, and Claude Desktop.
+- [`skills/acp-paid-subscription-checkout`](skills/acp-paid-subscription-checkout) - paid checkout execution, desktop-safe handoff, and redacted evidence review.
 
-This demo validates that an ACP agent can complete a paid newsletter checkout end-to-end, then verify the captured charge, receipt, and paid content access.
+Contribution layout guidance: [`skills/README.md`](skills/README.md)
+
+### Paid Substack Subscription Example
+
+Path: [`skills/acp-paid-subscription-checkout/examples/substack`](skills/acp-paid-subscription-checkout/examples/substack)
+
+This example validates that an ACP agent can complete a paid newsletter checkout end-to-end, then verify the captured charge, receipt, and paid content access.
+
+## Utilities
+
+Agent setup guide: [`docs/agent-setup.md`](docs/agent-setup.md)
+
+GitHub skill references: [`docs/skill-packages.md`](docs/skill-packages.md)
+
+Packaged skills: [`packages/`](packages)
+
+Utility layout guidance: [`utilities/README.md`](utilities/README.md)
+
+### Codex Virtuals Proxy
+
+Path: [`utilities/model-routing/codex-virtuals-proxy`](utilities/model-routing/codex-virtuals-proxy)
+
+This local helper lets Codex use Virtuals-hosted models by translating Codex Responses API calls to the Virtuals Chat Completions endpoint.
+
+### Claude Virtuals Router
+
+Path: [`utilities/model-routing/claude-virtuals-router`](utilities/model-routing/claude-virtuals-router)
+
+This setup example lets Claude Code use Virtuals-hosted models through `claude-code-router`.
 
 ## Use The Skill
 
@@ -25,13 +56,13 @@ Path: [`skills/acp-paid-subscription-checkout`](skills/acp-paid-subscription-che
 
 This is the reusable skill behind the Substack demo. It is intentionally broader than Substack: it describes a bounded paid subscription checkout workflow using ACP identity, email, and card primitives.
 
-The recommended flow is to install the skill, then give the agent only the merchant-specific details: target subscription, plan, billing cadence, spend cap, and verification requirement. You should not need to paste the full long-form prompt for each run.
+The skill chooses live execution, handoff, or evidence-review mode based on the environment. The recommended flow is to install the skill, then give the agent only the merchant-specific details: target subscription, plan, billing cadence, spend cap, and verification requirement. You should not need to paste the full long-form prompt for each run.
 
 Install for Codex:
 
 ```bash
-mkdir -p ~/.codex/skills
-cp -R skills/acp-paid-subscription-checkout ~/.codex/skills/
+mkdir -p ~/.agents/skills
+cp -R skills/acp-paid-subscription-checkout ~/.agents/skills/
 ```
 
 Install for Claude Code:
@@ -39,6 +70,12 @@ Install for Claude Code:
 ```bash
 mkdir -p ~/.claude/skills
 cp -R skills/acp-paid-subscription-checkout ~/.claude/skills/
+```
+
+For all local-execution skills, use the installer helper:
+
+```bash
+scripts/install-local-skills.sh --mode symlink --target both
 ```
 
 Invoke in Codex:
@@ -54,6 +91,8 @@ Invoke in Claude Code:
 ```
 
 Other agents can read the same `SKILL.md` and `references/` files directly, or use the demo prompt as a raw fallback.
+
+For Claude Desktop or chat-only surfaces, upload the Claude Desktop ZIP package and use the same skill to prepare a safe handoff prompt or review redacted evidence. The skill must not issue cards, retrieve OTPs, or click paid checkout buttons unless local tools are available.
 
 ## Safety Model
 

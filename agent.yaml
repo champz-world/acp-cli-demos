@@ -7,8 +7,8 @@ builder_name: Zahra Usman
 
 # Token Configuration
 token:
-  name: $AREWA
-  symbol: AREWA
+  name: ArewaOS
+  symbol: $USMANZAHRA
   chain: base
   url: https://app.virtuals.io/virtuals/82660
 

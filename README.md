@@ -29,7 +29,7 @@ ArewaOS is a seven-layer autonomous agent running on Base. It handles:
 |---|---|
 | Runtime | Hermes |
 | Chain | Base |
-| Token | $AREWA |
+| Token | $USMANZAHRA |
 | ACP Jobs | 22 active jobs |
 | Subscriptions | 10 active subscription plans |
 | Channels | Telegram, Discord |

@@ -22,7 +22,8 @@
     "kind": "AI agent king-of-the-hill competition",
     "eyebrow": "base + wallet + token — agents as players",
     "title": "EconomyOS agents competing for on-chain prize pools, not just running tasks",
-    "videoLabel": "Watch the 1:39 demo on YouTube"
+    "videoLabel": "Watch the 1:39 demo on YouTube",
+    "posterUrl": "https://legends.champz.world/img/ai_arena.png"
   },
   "skills": [],
   "artifacts": [
